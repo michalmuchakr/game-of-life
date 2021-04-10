@@ -4,30 +4,20 @@
 GameOfLife::GameOfLife(int size)
 {
 	this->size = size;
-	this->board = nullptr;
-}
-
-void GameOfLife::start()
-{
 }
 
 void GameOfLife::createBoard()
 {
-	this->board = new int** [this->size];
-	for (int i = 0; i < this->size; i++) {
-		board[i] = new int* [this->size];
-		for (int j = 0; j < this->size; j++) {
-			board[i][j] = new int[2];
-		}
-	}
-}
+	this->boardPtr = std::make_unique<std::unique_ptr<std::unique_ptr<int[]>[]>[]>(this->size);
 
-void GameOfLife::nullBoard()
-{
-	for (int i = 0; i < this->size; i++) {
-		for (int j = 0; j < this->size; j++) {
-			this->board[i][j][0] = 0;
-			this->board[i][j][1] = 0;
+	for (int k = 0; k < this->size; k++)
+	{
+		boardPtr[k] = std::make_unique<std::unique_ptr<int[]>[]>(this->size);
+		for (int i = 0; i < this->size; i++) {
+			boardPtr[k][i] = std::make_unique<int[]>(this->size);
+			for (int j = 0; j < 2; j++) {
+				boardPtr[k][i][j] = 0;
+			}
 		}
 	}
 }
@@ -36,7 +26,7 @@ void GameOfLife::printBoard()
 {
 	for (int i = 0; i < this->size; i++) {
 		for (int j = 0; j < this->size; j++) {
-			if (this->board[i][j][0] == 0) {
+			if (this->boardPtr[i][j][0] == 0) {
 				std::cout << ".";
 			}
 			else {
@@ -53,7 +43,7 @@ void GameOfLife::processBoard()
 	for (int i = 0; i < this->size; i++) {
 		for (int j = 0; j < this->size; j++) {
 			int amountOfLiveSiblings = getAmmountOfLiveSiblings(i, j);
-			this->board[i][j][1] = determineIfDeadOrAlife(amountOfLiveSiblings, this->board[i][j][0]);
+			this->boardPtr[i][j][1] = determineIfDeadOrAlife(amountOfLiveSiblings, this->boardPtr[i][j][0]);
 		}
 	}
 }
@@ -62,7 +52,7 @@ void GameOfLife::syncStateOfCellBoards()
 {
 	for (int i = 0; i < this->size; i++) {
 		for (int j = 0; j < this->size; j++) {
-			this->board[i][j][0] = this->board[i][j][1];
+			this->boardPtr[i][j][0] = this->boardPtr[i][j][1];
 		}
 	}
 }
@@ -80,12 +70,12 @@ int GameOfLife::getAmmountOfLiveSiblings(int y, int x)
 				continue;
 			}
 
-			// out of board range
+			// out of boardPtr range
 			if (i < 0 || i > this->size - 1 || j < 0 || j > this->size - 1) {
 				continue;
 			}
 
-			if (this->board[i][j][0] == 1) {
+			if (this->boardPtr[i][j][0] == 1) {
 				amountOfLiveSiblings++;
 			}
 		}

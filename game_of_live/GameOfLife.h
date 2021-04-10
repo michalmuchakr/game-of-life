@@ -4,12 +4,10 @@ class GameOfLife
 public:
 	GameOfLife(int size);
 
+	std::unique_ptr<std::unique_ptr<std::unique_ptr<int[]>[]>[]> boardPtr;
 	int size;
-	int*** board;
 
-	void start();
 	void createBoard();
-	void nullBoard();
 	void printBoard();
 	void processBoard();
 	void syncStateOfCellBoards();
