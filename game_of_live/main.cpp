@@ -11,11 +11,11 @@ int main() {
     std::unique_ptr<GameOfLife> Game(new GameOfLife(SIZE));
     Game->createBoard();
 
-    Game->boardPtr[1][0][0] = 1;
-    Game->boardPtr[1][2][0] = 1;
-    Game->boardPtr[2][1][0] = 1;
-    Game->boardPtr[2][2][0] = 1;
-    Game->boardPtr[3][1][0] = 1;
+    Game->boardPtr[1][0].isAlife = true;
+    Game->boardPtr[1][2].isAlife = true;
+    Game->boardPtr[2][1].isAlife = true;
+    Game->boardPtr[2][2].isAlife = true;
+    Game->boardPtr[3][1].isAlife = true;
 
     int timer = 0;
 

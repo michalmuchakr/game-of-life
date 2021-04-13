@@ -1,15 +1,17 @@
 #pragma once
 
 #include <vector>
+#include "Cell.h"
 
 class GameOfLife
 {
 public:
 	GameOfLife(int size);
 
-	std::vector<std::vector<std::vector<int>>> boardPtr;
+	std::vector<std::vector<Cell>> boardPtr;
 	int size;
 
+	void start();
 	void createBoard();
 	void printBoard();
 	void processBoard();

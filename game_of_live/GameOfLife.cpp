@@ -1,11 +1,15 @@
 #include <iostream>
+#include <vector>
 #include "GameOfLife.h"
+#include "Cell.h"
 
-GameOfLife::GameOfLife(int size)
+GameOfLife::GameOfLife(int size): size(size)
 {
-	this->size = size;
 }
 
+void GameOfLife::start()
+{
+}
 
 void GameOfLife::createBoard()
 {
@@ -15,10 +19,8 @@ void GameOfLife::createBoard()
 	{
 		boardPtr[d].resize(this->size);
 		for (int i = 0; i < this->size; i++) {
-			boardPtr[d][i].resize(2);
-			for (int j = 0; j < 2; j++) {
-				boardPtr[d][i][j] = 0;
-			}
+			// cells' prev and next state
+			boardPtr[d].push_back(Cell());
 		}
 	}
 }
@@ -27,11 +29,11 @@ void GameOfLife::printBoard()
 {
 	for (int i = 0; i < this->size; i++) {
 		for (int j = 0; j < this->size; j++) {
-			if (this->boardPtr[i][j][0] == 0) {
-				std::cout << ".";
+			if (this->boardPtr[i][j].isAlive) {
+				std::cout << "X";
 			}
 			else {
-				std::cout << "X";
+				std::cout << ".";
 			}
 			std::cout << " ";
 		}
@@ -44,7 +46,7 @@ void GameOfLife::processBoard()
 	for (int i = 0; i < this->size; i++) {
 		for (int j = 0; j < this->size; j++) {
 			int amountOfLiveSiblings = getAmmountOfLiveSiblings(i, j);
-			this->boardPtr[i][j][1] = determineIfDeadOrAlife(amountOfLiveSiblings, this->boardPtr[i][j][0]);
+			this->boardPtr[i][j].willBeAlive = determineIfDeadOrAlife(amountOfLiveSiblings, this->boardPtr[i][j].isAlive);
 		}
 	}
 }
@@ -53,7 +55,7 @@ void GameOfLife::syncStateOfCellBoards()
 {
 	for (int i = 0; i < this->size; i++) {
 		for (int j = 0; j < this->size; j++) {
-			this->boardPtr[i][j][0] = this->boardPtr[i][j][1];
+			this->boardPtr[i][j].isAlive = this->boardPtr[i][j].willBeAlive;
 		}
 	}
 }
@@ -76,7 +78,7 @@ int GameOfLife::getAmmountOfLiveSiblings(int y, int x)
 				continue;
 			}
 
-			if (this->boardPtr[i][j][0] == 1) {
+			if (this->boardPtr[i][j].isAlive) {
 				amountOfLiveSiblings++;
 			}
 		}
