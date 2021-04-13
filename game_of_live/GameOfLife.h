@@ -1,10 +1,13 @@
 #pragma once
+
+#include <vector>
+
 class GameOfLife
 {
 public:
 	GameOfLife(int size);
 
-	std::unique_ptr<std::unique_ptr<std::unique_ptr<int[]>[]>[]> boardPtr;
+	std::vector<std::vector<std::vector<int>>> boardPtr;
 	int size;
 
 	void createBoard();

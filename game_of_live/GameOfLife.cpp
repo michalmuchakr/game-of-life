@@ -6,17 +6,18 @@ GameOfLife::GameOfLife(int size)
 	this->size = size;
 }
 
+
 void GameOfLife::createBoard()
 {
-	this->boardPtr = std::make_unique<std::unique_ptr<std::unique_ptr<int[]>[]>[]>(this->size);
-
-	for (int k = 0; k < this->size; k++)
+	// Cell board
+	boardPtr.resize(this->size);
+	for (int d = 0; d < this->size; d++)
 	{
-		boardPtr[k] = std::make_unique<std::unique_ptr<int[]>[]>(this->size);
+		boardPtr[d].resize(this->size);
 		for (int i = 0; i < this->size; i++) {
-			boardPtr[k][i] = std::make_unique<int[]>(this->size);
+			boardPtr[d][i].resize(2);
 			for (int j = 0; j < 2; j++) {
-				boardPtr[k][i][j] = 0;
+				boardPtr[d][i][j] = 0;
 			}
 		}
 	}
