@@ -1,3 +1,10 @@
 .vs/
 x64/
 .idea/
+Debug/
+*.sln
+*/*.sln
+*/*.filters
+*/*.user
+*/*.exe
+*/*.vcxproj

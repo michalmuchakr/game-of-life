@@ -19,11 +19,12 @@ int main() {
 
     int timer = 0;
 
-    while (timer < AMOUNT_OF_ITERATIONS) {
+    for (int i = 0; i <= AMOUNT_OF_ITERATIONS; i++) {
         std::cout << "Iteration " << timer << std::endl;
 
-        Game->processBoard();
         Game->printBoard();
+
+        Game->processBoard();
         Game->syncStateOfCellBoards();
 
         timer++;

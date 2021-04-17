@@ -2,7 +2,7 @@
 class Cell
 {
 public:
-	bool isAlive;
+	bool isAlife;
 	bool willBeAlive;
 
 	// default constructor

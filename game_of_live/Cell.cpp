@@ -3,18 +3,21 @@
 
 using namespace std;
 
-Cell::Cell(): isAlive(false), willBeAlive(false)
+Cell::Cell(): isAlife(false), willBeAlive(false)
 {
+	std::cout << "Default constructor." << std::endl;
 }
 
 Cell::Cell(Cell& C1)
 {
-	this->isAlive = C1.isAlive;
+	std::cout << "Copy constructor." << std::endl;
+	this->isAlife = C1.isAlife;
 	this->willBeAlive = C1.willBeAlive;
 }
 
 Cell::Cell(Cell&& C1) noexcept
 {
-	this->isAlive = std::move(C1.isAlive);
+	std::cout << std::endl << "Move semantics constructor." << std::endl << std::endl;
+	this->isAlife = std::move(C1.isAlife);
 	this->willBeAlive = std::move(C1.willBeAlive);
 }

@@ -7,29 +7,31 @@ GameOfLife::GameOfLife(int size): size(size)
 {
 }
 
-void GameOfLife::start()
-{
-}
-
 void GameOfLife::createBoard()
 {
 	// Cell board
+	Cell C = Cell();
+	std::cout << "============&C============" << &C << std::endl;
+
 	boardPtr.resize(this->size);
 	for (int d = 0; d < this->size; d++)
 	{
 		boardPtr[d].resize(this->size);
 		for (int i = 0; i < this->size; i++) {
 			// cells' prev and next state
-			boardPtr[d].push_back(Cell());
+
+			boardPtr[d].push_back(std::move(C));
 		}
 	}
+
+	std::cout << "============&boardPtr[0][0].isAlife============ " << &boardPtr[0][0].isAlife << std::endl;
 }
 
 void GameOfLife::printBoard()
 {
 	for (int i = 0; i < this->size; i++) {
 		for (int j = 0; j < this->size; j++) {
-			if (this->boardPtr[i][j].isAlive) {
+			if (this->boardPtr[i][j].isAlife) {
 				std::cout << "X";
 			}
 			else {
@@ -46,7 +48,7 @@ void GameOfLife::processBoard()
 	for (int i = 0; i < this->size; i++) {
 		for (int j = 0; j < this->size; j++) {
 			int amountOfLiveSiblings = getAmmountOfLiveSiblings(i, j);
-			this->boardPtr[i][j].willBeAlive = determineIfDeadOrAlife(amountOfLiveSiblings, this->boardPtr[i][j].isAlive);
+			this->boardPtr[i][j].willBeAlive = determineIfDeadOrAlife(amountOfLiveSiblings, this->boardPtr[i][j].isAlife);
 		}
 	}
 }
@@ -55,7 +57,7 @@ void GameOfLife::syncStateOfCellBoards()
 {
 	for (int i = 0; i < this->size; i++) {
 		for (int j = 0; j < this->size; j++) {
-			this->boardPtr[i][j].isAlive = this->boardPtr[i][j].willBeAlive;
+			this->boardPtr[i][j].isAlife = this->boardPtr[i][j].willBeAlive;
 		}
 	}
 }
@@ -78,7 +80,7 @@ int GameOfLife::getAmmountOfLiveSiblings(int y, int x)
 				continue;
 			}
 
-			if (this->boardPtr[i][j].isAlive) {
+			if (this->boardPtr[i][j].isAlife) {
 				amountOfLiveSiblings++;
 			}
 		}
@@ -89,16 +91,12 @@ int GameOfLife::getAmmountOfLiveSiblings(int y, int x)
 
 int GameOfLife::determineIfDeadOrAlife(int amountOfLiveSiblings, int initialyAliveOrDead)
 {
-	int resultState;
-
 	if (initialyAliveOrDead) {
-		resultState = checkInitialyAlive(amountOfLiveSiblings);
+		return checkInitialyAlive(amountOfLiveSiblings);
 	}
 	else {
-		resultState = checkInitialyDead(amountOfLiveSiblings);
+		return checkInitialyDead(amountOfLiveSiblings);
 	}
-
-	return resultState;
 }
 
 int GameOfLife::checkInitialyAlive(int amountOfLiveSiblings)

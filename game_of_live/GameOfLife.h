@@ -11,7 +11,6 @@ public:
 	std::vector<std::vector<Cell>> boardPtr;
 	int size;
 
-	void start();
 	void createBoard();
 	void printBoard();
 	void processBoard();
