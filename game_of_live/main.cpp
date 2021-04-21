@@ -22,7 +22,7 @@ int main() {
     for (int i = 0; i <= AMOUNT_OF_ITERATIONS; i++) {
         std::cout << "Iteration " << timer << std::endl;
 
-        Game->printBoard();
+        Game->printBoard<char, char>('#',' ');
 
         Game->processBoard();
         Game->syncStateOfCellBoards();

@@ -10,36 +10,14 @@ GameOfLife::GameOfLife(int size): size(size)
 void GameOfLife::createBoard()
 {
 	// Cell board
-	Cell C = Cell();
-	std::cout << "============&C============" << &C << std::endl;
-
 	boardPtr.resize(this->size);
 	for (int d = 0; d < this->size; d++)
 	{
 		boardPtr[d].resize(this->size);
 		for (int i = 0; i < this->size; i++) {
 			// cells' prev and next state
-
-			boardPtr[d].push_back(std::move(C));
+			boardPtr[d].push_back(Cell());
 		}
-	}
-
-	std::cout << "============&boardPtr[0][0].isAlife============ " << &boardPtr[0][0].isAlife << std::endl;
-}
-
-void GameOfLife::printBoard()
-{
-	for (int i = 0; i < this->size; i++) {
-		for (int j = 0; j < this->size; j++) {
-			if (this->boardPtr[i][j].isAlife) {
-				std::cout << "X";
-			}
-			else {
-				std::cout << ".";
-			}
-			std::cout << " ";
-		}
-		std::cout << std::endl;
 	}
 }
 
@@ -62,6 +40,11 @@ void GameOfLife::syncStateOfCellBoards()
 	}
 }
 
+//y
+//| [ ][ ][ ]
+//| [ ][X][ ]
+//| [ ][ ][ ]
+//------------- x
 int GameOfLife::getAmmountOfLiveSiblings(int y, int x)
 {
 	int amountOfLiveSiblings = 0;
@@ -89,7 +72,7 @@ int GameOfLife::getAmmountOfLiveSiblings(int y, int x)
 	return amountOfLiveSiblings;
 }
 
-int GameOfLife::determineIfDeadOrAlife(int amountOfLiveSiblings, int initialyAliveOrDead)
+int GameOfLife::determineIfDeadOrAlife(int amountOfLiveSiblings, bool initialyAliveOrDead)
 {
 	if (initialyAliveOrDead) {
 		return checkInitialyAlive(amountOfLiveSiblings);
@@ -103,11 +86,11 @@ int GameOfLife::checkInitialyAlive(int amountOfLiveSiblings)
 {
 	// Any live cell with fewer than two live neighbours dies, as if by underpopulation.
 	// Any live cell with more than three live neighbours dies, as if by overpopulation.
-	int resultState = 0;
+	bool resultState = false;
 
 	// Any live cell with two or three live neighbours lives on to the next generation.
 	if (amountOfLiveSiblings == 2 || amountOfLiveSiblings == 3) {
-		resultState = 1;
+		resultState = true;
 	}
 
 	return resultState;
@@ -116,11 +99,11 @@ int GameOfLife::checkInitialyAlive(int amountOfLiveSiblings)
 int GameOfLife::checkInitialyDead(int amountOfLiveSiblings)
 {
 	// All other dead cells stay dead.
-	int resultState = 0;
+	bool resultState = false;
 
 	// Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 	if (amountOfLiveSiblings == 3) {
-		resultState = 1;
+		resultState = true;
 	}
 
 	return resultState;
