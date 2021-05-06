@@ -2,20 +2,24 @@
 
 #include <vector>
 #include "Cell.h"
+#include "Board.h"
 #include <iostream>
 
 template<class T = char, class U = char>
 class GameOfLife {
 public:
-
     GameOfLife(T alive, U dead, int size);
+    
+    const Board<T, U> board;
+
     std::vector <std::vector<Cell>> boardPtr;
+    
     int size;
 
     T alive;
     U dead;
 
-    void printBoard();
+    void printBoard() const;
 
     void createBoard();
 
@@ -23,7 +27,9 @@ public:
 
     void syncStateOfCellBoards();
 
-    int getAmmountOfLiveSiblings(int y, int x);
+    void incrementIfSiblingIsAlife(const Cell& cellToCheck, int& amountOfLiveSiblings);
+
+    constexpr int getAmmountOfLiveSiblings(int y, int x);
 
     int determineIfDeadOrAlife(int amountOfLiveSiblings, bool initialyAliveOrDead);
 

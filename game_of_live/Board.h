@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iostream>
 #include "Cell.h"
 
 template <class T, class U>
@@ -7,9 +8,9 @@ class Board
 {
 public:
 	Board(T aliveCellMark, U deadCellMark, int size);
-
 	T aliveCellMark;
 	U deadCellMark;
+
 	int size;
 	std::vector<std::vector<Cell>> boardPtr;
 
