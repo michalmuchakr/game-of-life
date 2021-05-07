@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Cell::Cell(): isAlife(false), willBeAlive(false)
+Cell::Cell() : isAlife(false), willBeAlive(false)
 {
 }
 

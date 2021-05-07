@@ -9,7 +9,7 @@
 #define SIZE                    20
 
 int main() {
-    std::unique_ptr <GameOfLife<>> Game(new GameOfLife<>('Q', '.', SIZE));
+    std::unique_ptr <GameOfLife<int>> Game(new GameOfLife<int>(1, '.', SIZE));
     Game->createBoard();
 
     Game->boardPtr[1][0].isAlife = true;

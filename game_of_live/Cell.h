@@ -9,8 +9,8 @@ public:
 	Cell();
 
 	// copy constructor
-	Cell(Cell & C1);
+	Cell(Cell& C1);
 
 	// move constructor
-	Cell(Cell && C1) noexcept;
+	Cell(Cell&& C1) noexcept;
 };
