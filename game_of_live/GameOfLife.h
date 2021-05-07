@@ -9,31 +9,22 @@ template<class T = char, class U = char>
 class GameOfLife {
 public:
     GameOfLife(T alive, U dead, int size);
+
+    void start() const;
     
-    const Board<T, U> board;
+    const Board<T, U> * board;
 
-    std::vector <std::vector<Cell>> boardPtr;
-    
-    int size;
+    const int size;
 
-    T alive;
-    U dead;
+    void processBoard() const;
 
-    void printBoard() const;
+    void incrementIfSiblingIsAlife(const Cell& cellToCheck, int& amountOfLiveSiblings) const;
 
-    void createBoard();
+    constexpr int getAmmountOfLiveSiblings(int y, int x) const;
 
-    void processBoard();
+    int determineIfDeadOrAlife(int amountOfLiveSiblings, bool initialyAliveOrDead) const;
 
-    void syncStateOfCellBoards();
+    int checkInitialyAlive(int amountOfLiveSiblings) const;
 
-    void incrementIfSiblingIsAlife(const Cell& cellToCheck, int& amountOfLiveSiblings);
-
-    constexpr int getAmmountOfLiveSiblings(int y, int x);
-
-    int determineIfDeadOrAlife(int amountOfLiveSiblings, bool initialyAliveOrDead);
-
-    int checkInitialyAlive(int amountOfLiveSiblings);
-
-    int checkInitialyDead(int amountOfLiveSiblings);
+    int checkInitialyDead(int amountOfLiveSiblings) const;
 };

@@ -18,3 +18,9 @@ Cell::Cell(Cell&& C1) noexcept
 	this->isAlife = std::move(C1.isAlife);
 	this->willBeAlive = std::move(C1.willBeAlive);
 }
+
+enum CellEnum { list, dead };
+class CellTest {
+protected:
+	CellEnum state;
+};

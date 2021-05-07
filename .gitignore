@@ -8,3 +8,4 @@ Debug/
 */*.exe
 */*.vcxproj
 /CppProperties.json
+.vs/

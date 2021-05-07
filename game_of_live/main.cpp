@@ -1,36 +1,14 @@
-#include <iostream>
-#include <Windows.h>
+﻿#include <iostream>
 #include <memory>
 #include "GameOfLife.h"
 #include "GameOfLife.cpp"
 
-#define AMOUNT_OF_ITERATIONS    100
-#define DELEY_BETWEEN_PROCESS   1000 //ms
-#define SIZE                    20
+#define SIZE 20
 
 int main() {
-    std::unique_ptr <GameOfLife<int>> Game(new GameOfLife<int>(1, '.', SIZE));
-    Game->createBoard();
+    std::unique_ptr <GameOfLife<>> Game(new GameOfLife<>('Q', '.', SIZE));
 
-    Game->boardPtr[1][0].isAlife = true;
-    Game->boardPtr[1][2].isAlife = true;
-    Game->boardPtr[2][1].isAlife = true;
-    Game->boardPtr[2][2].isAlife = true;
-    Game->boardPtr[3][1].isAlife = true;
-
-    int timer = 0;
-
-    for (int i = 0; i <= AMOUNT_OF_ITERATIONS; i++) {
-        std::cout << "Iteration " << timer << std::endl;
-
-        Game->printBoard();
-        Game->processBoard();
-        Game->syncStateOfCellBoards();
-
-        timer++;
-        Sleep(DELEY_BETWEEN_PROCESS);
-        system("cls");
-    }
+    Game->start();
 
     return 0;
 }
