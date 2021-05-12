@@ -5,14 +5,14 @@ Moore::Moore()
 {
 }
 
-void Moore::incrementIfSiblingIsAlife(const Cell& cellToCheck, int& amountOfLiveSiblings) const
+void Moore::incrementIfSiblingIsAlive(const Cell& cellToCheck, int& amountOfLiveSiblings) const
 {
     if (cellToCheck.isAlife) {
         amountOfLiveSiblings++;
     }
 }
 
-int Moore::getAmmountOfLiveSiblings(int y, int x, const Board<>* board, int size)
+int Moore::getAmountOfLiveSiblings(int y, int x, const Board<>* board, int size)
 {
     int amountOfLiveSiblings = 0;
 
@@ -29,9 +29,9 @@ int Moore::getAmmountOfLiveSiblings(int y, int x, const Board<>* board, int size
             if (i < 0 || i > size - 1 || j < 0 || j > size - 1) {
                 continue;
             }
-    
+
             // increment amount of live siblings
-            incrementIfSiblingIsAlife(board->boardPtr[i][j], amountOfLiveSiblings);
+            incrementIfSiblingIsAlive(board->boardPtr[i][j], amountOfLiveSiblings);
         }
     }
 

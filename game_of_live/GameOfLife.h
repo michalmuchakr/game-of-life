@@ -11,25 +11,25 @@ class GameOfLife {
 public:
     GameOfLife();
 
-    GameOfLife(T alive, U dead, S * sibl, int size);
+    GameOfLife(T alive, U dead, S *siblings, int size);
 
     void start() const;
-    
-    S * siblings;
 
-    const Board<T, U> * board;
+    S *siblings;
+
+    const Board<T, U> *board;
 
     const int size;
 
     void processBoard() const;
 
-    void incrementIfSiblingIsAlife(const Cell& cellToCheck, int& amountOfLiveSiblings) const;
+    void incrementIfSiblingIsAlive(const Cell &cellToCheck, int &amountOfLiveSiblings) const;
 
-    constexpr int getAmmountOfLiveSiblings(int y, int x) const;
+    constexpr int getAmountOfLiveSiblings(int y, int x) const;
 
-    int determineIfDeadOrAlife(int amountOfLiveSiblings, bool initialyAliveOrDead) const;
+    int determineIfDeadOrAlive(int amountOfLiveSiblings, bool initiallyAliveOrDead) const;
 
-    int checkInitialyAlive(int amountOfLiveSiblings) const;
+    int checkInitiallyAlive(int amountOfLiveSiblings) const;
 
-    int checkInitialyDead(int amountOfLiveSiblings) const;
+    int checkInitiallyDead(int amountOfLiveSiblings) const;
 };

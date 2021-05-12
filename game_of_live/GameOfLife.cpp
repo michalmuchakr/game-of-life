@@ -14,10 +14,9 @@ GameOfLife<T, U, S>::GameOfLife()
 }
 
 template<class T, class U, class S>
-GameOfLife<T, U, S>::GameOfLife(T alive, U dead, S* sibl, int size) : size(size)
+GameOfLife<T, U, S>::GameOfLife(T alive, U dead, S* siblings, int size) : size(size), siblings(siblings)
 {
     board = new Board<T, U>(alive, dead, size);
-    siblings = sibl;
 }
 
 template<class T, class U, class S>
@@ -41,9 +40,9 @@ template<class T, class U, class S>
 void GameOfLife<T, U, S>::processBoard() const {
     for (int i = 0; i < this->size; i++) {
         for (int j = 0; j < this->size; j++) {
-             int amountOfLiveSiblings = siblings->getAmmountOfLiveSiblings(i, j, board, size);
+             int amountOfLiveSiblings = siblings->getAmountOfLiveSiblings(i, j, board, size);
 
-             board->boardPtr[i][j].willBeAlive = determineIfDeadOrAlife(
+             board->boardPtr[i][j].willBeAlive = determineIfDeadOrAlive(
                                                     amountOfLiveSiblings,
                                                     board->boardPtr[i][j].isAlife
                                                 );
@@ -52,14 +51,14 @@ void GameOfLife<T, U, S>::processBoard() const {
 }
 
 template<class T, class U, class S>
-void GameOfLife<T, U, S>::incrementIfSiblingIsAlife(const Cell & cellToCheck, int& amountOfLiveSiblings) const {
+void GameOfLife<T, U, S>::incrementIfSiblingIsAlive(const Cell & cellToCheck, int& amountOfLiveSiblings) const {
     if (cellToCheck.isAlife) {
         amountOfLiveSiblings++;
     }
 }
 
 template<class T, class U, class S>
-constexpr int GameOfLife<T, U, S>::getAmmountOfLiveSiblings(int y, int x) const {
+constexpr int GameOfLife<T, U, S>::getAmountOfLiveSiblings(int y, int x) const {
     int amountOfLiveSiblings = 0;
 
     // process vertical siblings
@@ -77,7 +76,7 @@ constexpr int GameOfLife<T, U, S>::getAmmountOfLiveSiblings(int y, int x) const 
             }
     
             // increment amount of live siblings
-            incrementIfSiblingIsAlife(board->boardPtr[i][j], amountOfLiveSiblings);
+            incrementIfSiblingIsAlive(board->boardPtr[i][j], amountOfLiveSiblings);
         }
     }
 
@@ -85,17 +84,17 @@ constexpr int GameOfLife<T, U, S>::getAmmountOfLiveSiblings(int y, int x) const 
 }
 
 template<class T, class U, class S>
-int GameOfLife<T, U, S>::determineIfDeadOrAlife(int amountOfLiveSiblings, bool initialyAliveOrDead) const {
-    if (initialyAliveOrDead) {
-        return checkInitialyAlive(amountOfLiveSiblings);
+int GameOfLife<T, U, S>::determineIfDeadOrAlive(int amountOfLiveSiblings, bool initiallyAliveOrDead) const {
+    if (initiallyAliveOrDead) {
+        return checkInitiallyAlive(amountOfLiveSiblings);
     }
     else {
-        return checkInitialyDead(amountOfLiveSiblings);
+        return checkInitiallyDead(amountOfLiveSiblings);
     }
 }
 
 template<class T, class U, class S>
-int GameOfLife<T, U, S>::checkInitialyAlive(int amountOfLiveSiblings) const {
+int GameOfLife<T, U, S>::checkInitiallyAlive(int amountOfLiveSiblings) const {
     // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
     // Any live cell with more than three live neighbours dies, as if by overpopulation.
     // Any live cell with two or three live neighbours lives on to the next generation.
@@ -103,7 +102,7 @@ int GameOfLife<T, U, S>::checkInitialyAlive(int amountOfLiveSiblings) const {
 }
 
 template<class T, class U, class S>
-int GameOfLife<T, U, S>::checkInitialyDead(int amountOfLiveSiblings) const {
+int GameOfLife<T, U, S>::checkInitiallyDead(int amountOfLiveSiblings) const {
     // All other dead cells stay dead.
     // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
     return (amountOfLiveSiblings == 3) ? true : false;
