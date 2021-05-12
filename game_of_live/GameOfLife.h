@@ -1,17 +1,22 @@
 #pragma once
 
 #include <vector>
+#include <iostream>
 #include "Cell.h"
 #include "Board.h"
-#include <iostream>
+#include "Moore.h"
 
-template<class T = char, class U = char>
+template<class T = char, class U = char, class S = Moore>
 class GameOfLife {
 public:
-    GameOfLife(T alive, U dead, int size);
+    GameOfLife();
+
+    GameOfLife(T alive, U dead, S * sibl, int size);
 
     void start() const;
     
+    S * siblings;
+
     const Board<T, U> * board;
 
     const int size;

@@ -3,7 +3,7 @@
 #include "Cell.h"
 #include <iostream>
 
-template <class T, class U>
+template <class T = char, class U = char>
 class Board
 {
 public:
@@ -12,6 +12,9 @@ public:
 
 	T aliveCellMark;
 	U deadCellMark;
+
+	void test();
+
 	int size;
 	mutable std::vector<std::vector<Cell>> boardPtr;
 
@@ -32,6 +35,12 @@ inline Board<T, U>::Board(T aliveCellMark, U deadCellMark, int size):
 	aliveCellMark(aliveCellMark), deadCellMark(deadCellMark), size(size) {
 	this->createBoard();
 	this->initAliveCells();
+}
+
+template<class T, class U>
+inline void Board<T, U>::test()
+{
+	std::cout << "Here!" << std::endl;
 }
 
 template<class T, class U>

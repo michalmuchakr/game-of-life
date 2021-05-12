@@ -3,17 +3,25 @@
 #include <Windows.h>
 #include "GameOfLife.h"
 #include "Board.h"
+#include "Moore.h"
 
 #define AMOUNT_OF_ITERATIONS    100
 #define DELEY_BETWEEN_PROCESS   1000 //ms
 
-template<class T, class U>
-GameOfLife<T, U>::GameOfLife(T aliveCellMark, U deadCellMark, const int size) : size(size) {
-    board = new Board<T, U>(aliveCellMark, deadCellMark, size);
+template<class T, class U, class S>
+GameOfLife<T, U, S>::GameOfLife()
+{
 }
 
-template<class T, class U>
-void GameOfLife<T, U>::start() const {
+template<class T, class U, class S>
+GameOfLife<T, U, S>::GameOfLife(T alive, U dead, S* sibl, int size) : size(size)
+{
+    board = new Board<T, U>(alive, dead, size);
+    siblings = sibl;
+}
+
+template<class T, class U, class S>
+void GameOfLife<T, U, S>::start() const {
     int timer = 0;
 
     for (int i = 0; i <= AMOUNT_OF_ITERATIONS; i++) {
@@ -29,12 +37,13 @@ void GameOfLife<T, U>::start() const {
     }
 }
 
-template<class T, class U>
-void GameOfLife<T, U>::processBoard() const {
+template<class T, class U, class S>
+void GameOfLife<T, U, S>::processBoard() const {
     for (int i = 0; i < this->size; i++) {
         for (int j = 0; j < this->size; j++) {
-            int amountOfLiveSiblings = getAmmountOfLiveSiblings(i, j);
-            board->boardPtr[i][j].willBeAlive = determineIfDeadOrAlife(
+             int amountOfLiveSiblings = siblings->getAmmountOfLiveSiblings(i, j, board, size);
+
+             board->boardPtr[i][j].willBeAlive = determineIfDeadOrAlife(
                                                     amountOfLiveSiblings,
                                                     board->boardPtr[i][j].isAlife
                                                 );
@@ -42,15 +51,15 @@ void GameOfLife<T, U>::processBoard() const {
     }
 }
 
-template<class T, class U>
-void GameOfLife<T, U>::incrementIfSiblingIsAlife(const Cell & cellToCheck, int& amountOfLiveSiblings) const {
+template<class T, class U, class S>
+void GameOfLife<T, U, S>::incrementIfSiblingIsAlife(const Cell & cellToCheck, int& amountOfLiveSiblings) const {
     if (cellToCheck.isAlife) {
         amountOfLiveSiblings++;
     }
 }
 
-template<class T, class U>
-constexpr int GameOfLife<T, U>::getAmmountOfLiveSiblings(int y, int x) const {
+template<class T, class U, class S>
+constexpr int GameOfLife<T, U, S>::getAmmountOfLiveSiblings(int y, int x) const {
     int amountOfLiveSiblings = 0;
 
     // process vertical siblings
@@ -71,11 +80,12 @@ constexpr int GameOfLife<T, U>::getAmmountOfLiveSiblings(int y, int x) const {
             incrementIfSiblingIsAlife(board->boardPtr[i][j], amountOfLiveSiblings);
         }
     }
+
     return amountOfLiveSiblings;
 }
 
-template<class T, class U>
-int GameOfLife<T, U>::determineIfDeadOrAlife(int amountOfLiveSiblings, bool initialyAliveOrDead) const {
+template<class T, class U, class S>
+int GameOfLife<T, U, S>::determineIfDeadOrAlife(int amountOfLiveSiblings, bool initialyAliveOrDead) const {
     if (initialyAliveOrDead) {
         return checkInitialyAlive(amountOfLiveSiblings);
     }
@@ -84,16 +94,16 @@ int GameOfLife<T, U>::determineIfDeadOrAlife(int amountOfLiveSiblings, bool init
     }
 }
 
-template<class T, class U>
-int GameOfLife<T, U>::checkInitialyAlive(int amountOfLiveSiblings) const {
+template<class T, class U, class S>
+int GameOfLife<T, U, S>::checkInitialyAlive(int amountOfLiveSiblings) const {
     // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
     // Any live cell with more than three live neighbours dies, as if by overpopulation.
     // Any live cell with two or three live neighbours lives on to the next generation.
     return (amountOfLiveSiblings == 2 || amountOfLiveSiblings == 3) ? true : false;
 }
 
-template<class T, class U>
-int GameOfLife<T, U>::checkInitialyDead(int amountOfLiveSiblings) const {
+template<class T, class U, class S>
+int GameOfLife<T, U, S>::checkInitialyDead(int amountOfLiveSiblings) const {
     // All other dead cells stay dead.
     // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
     return (amountOfLiveSiblings == 3) ? true : false;
