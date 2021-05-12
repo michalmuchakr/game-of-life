@@ -3,7 +3,7 @@
 #include "Cell.h"
 #include <iostream>
 
-template <class T, class U>
+template <class T = char, class U = char>
 class Board
 {
 public:

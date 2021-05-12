@@ -5,13 +5,15 @@
 #include "Board.h"
 #include <iostream>
 
-template<class T = char, class U = char>
+template<class T, class U , class S>
 class GameOfLife {
 public:
     GameOfLife(T alive, U dead, int size);
 
     void start() const;
     
+    //S * Siblings;
+
     const Board<T, U> * board;
 
     const int size;

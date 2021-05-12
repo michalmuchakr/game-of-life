@@ -20,6 +20,7 @@ Cell::Cell(Cell&& C1) noexcept
 }
 
 enum CellEnum { list, dead };
+
 class CellTest {
 protected:
 	CellEnum state;
