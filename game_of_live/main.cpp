@@ -3,14 +3,16 @@
 #include "GameOfLife.h"
 #include "GameOfLife.cpp"
 #include "Moore.h"
+#include "Neumann.h"
 
 #define SIZE 20
 
 int main() {
-    Moore * M = new Moore();
+    Moore* M = new Moore();
+    Neumann* N = new Neumann();
 
-    std::unique_ptr <GameOfLife<>> Game(
-        new GameOfLife<>('Q', '.', M, SIZE)
+    std::unique_ptr <GameOfLife<Neumann>> Game(
+        new GameOfLife<Neumann>(N, 'N', '.', SIZE)
     );
 
     Game->start();

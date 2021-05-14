@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Cell::Cell(): isAlife(false), willBeAlive(false)
+Cell::Cell() : isAlife(false), willBeAlive(false)
 {
 }
 
@@ -19,7 +19,12 @@ Cell::Cell(Cell&& C1) noexcept
 	this->willBeAlive = std::move(C1.willBeAlive);
 }
 
-enum CellEnum { list, dead };
+enum CellEnum {
+    DEAD = 'D',
+    OLD = 'O',
+    ADULT = 'A',
+    YOUNG = 'Y',
+    };
 
 class CellTest {
 protected:
