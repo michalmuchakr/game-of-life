@@ -8,11 +8,12 @@
 #define SIZE 20
 
 int main() {
+
     Moore* M = new Moore();
     Neumann* N = new Neumann();
 
-    std::unique_ptr <GameOfLife<Neumann>> Game(
-        new GameOfLife<Neumann>(N, 'N', '.', SIZE)
+    std::unique_ptr <GameOfLife<Moore>> Game(
+        new GameOfLife<Moore>(M, SIZE)
     );
 
     Game->start();

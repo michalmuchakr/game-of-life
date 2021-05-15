@@ -6,18 +6,18 @@
 #include "Board.h"
 #include "Moore.h"
 
-template<class S = Moore, class T = char, class U = char>
+template<class S = Moore>
 class GameOfLife {
 public:
     GameOfLife();
 
-    GameOfLife(S* siblings, T alive, U dead, int size);
+    GameOfLife(S* siblings, int size);
 
     void start() const;
 
     S* siblings;
 
-    const Board<T, U>* board;
+    const Board* board;
 
     const int size;
 
@@ -27,9 +27,9 @@ public:
 
     constexpr int getAmountOfLiveSiblings(int y, int x) const;
 
-    int determineIfDeadOrAlive(int amountOfLiveSiblings, bool initiallyAliveOrDead) const;
+    int determineIfDeadOrAlive(int amountOfLiveSiblings, short initiallyAliveOrDead) const;
 
-    int checkInitiallyAlive(int amountOfLiveSiblings) const;
+    short checkInitiallyAlive(int amountOfLiveSiblings) const;
 
-    int checkInitiallyDead(int amountOfLiveSiblings) const;
+    short checkInitiallyDead(int amountOfLiveSiblings) const;
 };

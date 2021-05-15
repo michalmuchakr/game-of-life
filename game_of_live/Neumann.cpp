@@ -7,12 +7,12 @@ Neumann::Neumann()
 
 void Neumann::incrementIfSiblingIsAlive(const Cell& cellToCheck, int& amountOfLiveSiblings) const
 {
-    if (cellToCheck.isAlife) {
+    if (cellToCheck.cellStatus == 0) {
         amountOfLiveSiblings++;
     }
 }
 
-int Neumann::getAmountOfLiveSiblings(int y, int x, const Board<>* board, int size)
+int Neumann::getAmountOfLiveSiblings(int y, int x, const Board* board, int size)
 {
     int amountOfLiveSiblings = 0;
 

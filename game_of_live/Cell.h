@@ -2,8 +2,8 @@
 class Cell
 {
 public:
-	bool isAlife;
-	bool willBeAlive;
+	short cellStatus;
+	short nextStatus;
 
 	// default constructor
 	Cell();
@@ -13,4 +13,6 @@ public:
 
 	// move constructor
 	Cell(Cell&& C1) noexcept;
+
+	char checkCellStatus();
 };

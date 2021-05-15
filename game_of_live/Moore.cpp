@@ -7,12 +7,12 @@ Moore::Moore()
 
 void Moore::incrementIfSiblingIsAlive(const Cell& cellToCheck, int& amountOfLiveSiblings) const
 {
-    if (cellToCheck.isAlife) {
+    if (cellToCheck.cellStatus == 0) {
         amountOfLiveSiblings++;
     }
 }
 
-int Moore::getAmountOfLiveSiblings(int y, int x, const Board<>* board, int size)
+int Moore::getAmountOfLiveSiblings(int y, int x, const Board* board, int size)
 {
     int amountOfLiveSiblings = 0;
 
