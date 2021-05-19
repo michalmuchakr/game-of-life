@@ -7,7 +7,7 @@ Neumann::Neumann()
 
 void Neumann::incrementIfSiblingIsAlive(const Cell& cellToCheck, int& amountOfLiveSiblings) const
 {
-    if (cellToCheck.cellStatus == 0) {
+    if (cellToCheck.cellStatus != 4) {
         amountOfLiveSiblings++;
     }
 }

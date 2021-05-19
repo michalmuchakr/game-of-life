@@ -9,3 +9,5 @@ Debug/
 */*.vcxproj
 /CppProperties.json
 .vs/
+Release/
+pathes/

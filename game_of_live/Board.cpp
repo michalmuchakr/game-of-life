@@ -4,7 +4,7 @@
 #include "Board.h"
 #include <iostream>
 
-Board::Board()
+Board::Board() : size(0)
 {
 }
 
@@ -20,12 +20,6 @@ void Board::test()
 
 void Board::initAliveCells()
 {
-	//this->boardPtr[1][0].isAlife = true;
-	//this->boardPtr[1][2].isAlife = true;
-	//this->boardPtr[2][1].isAlife = true;
-	//this->boardPtr[2][2].isAlife = true;
-	//this->boardPtr[3][1].isAlife = true;
-
 	this->boardPtr[1][0].cellStatus = 0;
 	this->boardPtr[1][2].cellStatus = 0;
 	this->boardPtr[2][1].cellStatus = 0;

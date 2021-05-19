@@ -27,7 +27,11 @@ void GameOfLife<S>::start() const {
         std::cout << "Iteration " << timer << std::endl;
 
         board->printBoard();
+
         this->processBoard();
+
+        this->ageUpAliveCell();
+
         board->syncStateOfCellBoards();
 
         timer++;
@@ -52,8 +56,33 @@ void GameOfLife<S>::processBoard() const {
 
 template<class S>
 void GameOfLife<S>::incrementIfSiblingIsAlive(const Cell& cellToCheck, int& amountOfLiveSiblings) const {
-    if (cellToCheck.cellStatus) {
+    if (cellToCheck.cellStatus != 4) {
         amountOfLiveSiblings++;
+    }
+}
+
+template<class S>
+void GameOfLife<S>::ageUpAliveCell() const
+{
+    auto ageUpParticularCell = [=](int i, int j) {
+        Cell temC = this->board->boardPtr[i][j];
+
+        // NEWBORN state cell at cellStatus assumes tthat it remain alive at NEWBORN state
+        // and it's not turned from dead to alive
+        // --> (temC.cellStatus == 0 && temC.nextStatus == 0)
+
+        // rest of not dead cell needs to get older
+        // dead cells do not get older
+
+        if ((temC.cellStatus == 0 && temC.nextStatus == 0) || (temC.nextStatus > 0 && temC.nextStatus < 4)) {
+            return this->board->boardPtr[i][j].nextStatus + 1;
+        }
+    };
+
+    for (int i = 0; i < this->size; i++) {
+        for (int j = 0; j < this->size; j++) {
+            this->board->boardPtr[i][j].nextStatus = ageUpParticularCell(i, j);
+        }
     }
 }
 
@@ -83,21 +112,21 @@ constexpr int GameOfLife<S>::getAmountOfLiveSiblings(int y, int x) const {
 }
 
 template<class S>
-int GameOfLife<S>::determineIfDeadOrAlive(int amountOfLiveSiblings, short initiallyAliveOrDead) const {
-    if (initiallyAliveOrDead == 0) {
-        return checkInitiallyAlive(amountOfLiveSiblings);
+int GameOfLife<S>::determineIfDeadOrAlive(int amountOfLiveSiblings, short initiallyCellState) const {
+    if (initiallyCellState != 4) {
+        return checkInitiallyAlive(amountOfLiveSiblings, initiallyCellState);
     }
-    else if (initiallyAliveOrDead == 4) {
+    else if (initiallyCellState == 4) {
         return checkInitiallyDead(amountOfLiveSiblings);
     }
 }
 
 template<class S>
-short GameOfLife<S>::checkInitiallyAlive(int amountOfLiveSiblings) const {
+short GameOfLife<S>::checkInitiallyAlive(int amountOfLiveSiblings, short initiallyCellState) const {
     // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
     // Any live cell with more than three live neighbours dies, as if by overpopulation.
     // Any live cell with two or three live neighbours lives on to the next generation.
-    return (amountOfLiveSiblings == 2 || amountOfLiveSiblings == 3) ? 0 : 4;
+    return (amountOfLiveSiblings == 2 || amountOfLiveSiblings == 3) ? initiallyCellState : 4;
 }
 
 template<class S>

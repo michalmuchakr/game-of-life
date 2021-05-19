@@ -8,7 +8,6 @@
 #define SIZE 20
 
 int main() {
-
     Moore* M = new Moore();
     Neumann* N = new Neumann();
 

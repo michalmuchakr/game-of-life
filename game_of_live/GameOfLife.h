@@ -25,11 +25,13 @@ public:
 
     void incrementIfSiblingIsAlive(const Cell& cellToCheck, int& amountOfLiveSiblings) const;
 
+    void ageUpAliveCell() const;
+
     constexpr int getAmountOfLiveSiblings(int y, int x) const;
 
     int determineIfDeadOrAlive(int amountOfLiveSiblings, short initiallyAliveOrDead) const;
 
-    short checkInitiallyAlive(int amountOfLiveSiblings) const;
+    short checkInitiallyAlive(int amountOfLiveSiblings, short initiallyAliveOrDead) const;
 
     short checkInitiallyDead(int amountOfLiveSiblings) const;
 };
