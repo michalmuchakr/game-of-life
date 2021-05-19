@@ -1,4 +1,5 @@
 #include <iostream>
+#include <windows.h>
 #include "Cell.h"
 
 using namespace std;
@@ -28,21 +29,27 @@ Cell::Cell(Cell&& C1) noexcept
 char Cell::checkCellStatus() {
     switch (cellStatus) {
     case NEWBORN:
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 1);
         return 'N';
         break;
     case YOUNG:
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
         return 'Y';
         break;
     case ADULT:
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 3);
         return 'A';
         break;
     case OLD:
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
         return 'O';
         break;
     case DEAD:
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
         return '.';
         break;
     default:
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
         return '.';
         break;
     }
