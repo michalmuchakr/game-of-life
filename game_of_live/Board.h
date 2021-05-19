@@ -2,6 +2,7 @@
 #include <vector>
 #include "Cell.h"
 #include <iostream>
+#include <map>
 
 class Board
 {
@@ -18,5 +19,8 @@ public:
 
 	void createBoard();
 	void printBoard() const;
+	void printCellAmountByAge(std::map<short, int> elementsByAgeMap) const;
 	void syncStateOfCellBoards() const;
+
+	std::map<short, int> calcElementAmountByAge() const;
 };

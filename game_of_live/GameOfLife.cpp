@@ -24,8 +24,12 @@ void GameOfLife<S>::start() const {
     int timer = 0;
 
     for (int i = 0; i <= AMOUNT_OF_ITERATIONS; i++) {
+        std::cout << "----------------------------------------------" << std::endl;
         std::cout << "Iteration " << timer << std::endl;
 
+        std::map cellsByAgeMap = board->calcElementAmountByAge();
+
+        board->printCellAmountByAge(cellsByAgeMap);
         board->printBoard();
 
         this->processBoard();
@@ -35,6 +39,7 @@ void GameOfLife<S>::start() const {
         board->syncStateOfCellBoards();
 
         timer++;
+
         Sleep(DELEY_BETWEEN_PROCESS);
         system("cls");
     }

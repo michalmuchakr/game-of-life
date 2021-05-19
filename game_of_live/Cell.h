@@ -1,4 +1,6 @@
 #pragma once
+#include<string>
+
 class Cell
 {
 public:
@@ -15,4 +17,14 @@ public:
 	Cell(Cell&& C1) noexcept;
 
 	char checkCellStatus();
+
+	static std::string getStateNameByValue(short cellStatus);
+
+	enum CellEnum {
+		NEWBORN = 0,
+		YOUNG = 1,
+		ADULT = 2,
+		OLD = 3,
+		DEAD = 4,
+	};
 };

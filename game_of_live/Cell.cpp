@@ -4,14 +4,6 @@
 
 using namespace std;
 
-enum CellEnum {
-    NEWBORN = 0,
-    YOUNG = 1,
-    ADULT = 2,
-    OLD = 3,
-    DEAD = 4,
-};
-
 Cell::Cell() : cellStatus(4), nextStatus(4) {}
 
 Cell::Cell(Cell& C1)
@@ -55,7 +47,26 @@ char Cell::checkCellStatus() {
     }
 }
 
-class CellTest {
-protected:
-	CellEnum state;
-};
+std::string Cell::getStateNameByValue(short cellStatus)
+{
+    switch (cellStatus) {
+    case NEWBORN:
+        return "BABY";
+        break;
+    case YOUNG:
+        return "YOUNG";
+        break;
+    case ADULT:
+        return "ADULT";
+        break;
+    case OLD:
+        return "OLD";
+        break;
+    case DEAD:
+        return "DEAD";
+        break;
+    default:
+        return "DEAD";
+        break;
+    }
+}

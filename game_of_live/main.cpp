@@ -4,6 +4,7 @@
 #include "GameOfLife.cpp"
 #include "Moore.h"
 #include "Neumann.h"
+#include <map>
 
 #define SIZE 20
 
