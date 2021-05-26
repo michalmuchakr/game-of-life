@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <Windows.h>
+#include <string>
 #include "GameOfLife.h"
 #include "Board.h"
 #include "Moore.h"
 
-#define AMOUNT_OF_ITERATIONS    100
 #define DELEY_BETWEEN_PROCESS   1000 //ms
 
 template<class S>
@@ -14,16 +14,27 @@ GameOfLife<S>::GameOfLife()
 }
 
 template<class S>
-GameOfLife<S>::GameOfLife(S* siblings, int size) : size(size), siblings(siblings)
+GameOfLife<S>::GameOfLife(S* siblings) : siblings(siblings)
 {
-    board = new Board(size);
 }
 
 template<class S>
 void GameOfLife<S>::start() const {
     int timer = 0;
 
-    for (int i = 0; i <= AMOUNT_OF_ITERATIONS; i++) {
+    try
+    {
+        getUserSizeOfBoard();
+    }
+    catch (const std::out_of_range& oorError)
+    {
+        handleBoardError(oorError.what());
+    }
+
+    initBoard();
+
+    for (int i = 0; i <= this->size; i++)
+    {
         std::cout << "----------------------------------------------" << std::endl;
         std::cout << "Iteration " << timer << std::endl;
 
@@ -42,6 +53,69 @@ void GameOfLife<S>::start() const {
 
         Sleep(DELEY_BETWEEN_PROCESS);
         system("cls");
+    }
+}
+
+template<class S>
+void GameOfLife<S>::initUserBoardSize() const
+{
+    try
+    {
+        getUserSizeOfBoard();
+    }
+    catch (const std::out_of_range& oorError)
+    {
+        handleBoardError(oorError.what());
+    }
+}
+
+template<class S>
+void GameOfLife<S>::initBoard() const
+{
+    board = new Board(size);
+}
+
+template<class S>
+void GameOfLife<S>::getUserSizeOfBoard() const
+{
+    short userSize;
+
+    std::cout << "Please provide size of board, is going to be a square" << std::endl;
+    std::cout << "Please provide number from range <1, 500>" << std::endl;
+
+    std::cin >> userSize;
+
+    if (userSize < 1)
+    {
+        throw std::out_of_range("Size provided is to small!");
+    }
+    else if (userSize > 500)
+    {
+        throw std::out_of_range("Size provided is to big!");
+    }
+
+    this->size = userSize;
+}
+
+template<class S>
+void GameOfLife<S>::handleBoardError(std::string errorMsg) const
+{
+    std::string userDecision;
+
+    std::cerr << "Out of Range error: " << errorMsg << '\n';
+    std::cout << "Would you like to try again, [Y] = yes, [other] = no" << std::endl;
+
+    std::cin >> userDecision;
+
+    if (userDecision == "Y")
+    {
+        system("cls");
+        initUserBoardSize();
+    }
+    else
+    {
+        std::cout << "Program going to be closed, press any to continue." << std::endl;
+        std::exit(1);
     }
 }
 
@@ -72,7 +146,7 @@ void GameOfLife<S>::ageUpAliveCell() const
     auto ageUpParticularCell = [=](int i, int j) {
         Cell temC = this->board->boardPtr[i][j];
 
-        // NEWBORN state cell at cellStatus assumes tthat it remain alive at NEWBORN state
+        // NEWBORN state cell at cellStatus assumes that it remain alive at NEWBORN state
         // and it's not turned from dead to alive
         // --> (temC.cellStatus == 0 && temC.nextStatus == 0)
 
