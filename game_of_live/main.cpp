@@ -6,14 +6,12 @@
 #include "Neumann.h"
 #include <map>
 
-#define SIZE 20
-
 int main() {
     Moore* M = new Moore();
     Neumann* N = new Neumann();
 
     std::unique_ptr <GameOfLife<Moore>> Game(
-        new GameOfLife<Moore>(M, SIZE)
+        new GameOfLife<Moore>(M)
     );
 
     Game->start();

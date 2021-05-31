@@ -11,15 +11,31 @@ class GameOfLife {
 public:
     GameOfLife();
 
-    GameOfLife(S* siblings, int size);
+    GameOfLife(S* siblings);
 
     void start() const;
 
     S* siblings;
 
-    const Board* board;
+    // Since the pointer is mutable, it can be modified in a const method
+    // The value it points to is const, and cannot be modified through that pointer.
+    mutable const Board* board;
 
-    const int size;
+    mutable int size;
+
+    mutable int anountOfUserProvideBoardSize;
+
+    mutable int anountOfUserProvideBoardSizeLimit;
+
+    void initUserBoardSize() const;
+
+    void initBoard() const;
+
+    void getUserSizeOfBoard() const;
+
+    void handleBoardError(std::string errorMsg) const;
+
+    void handleAmountOfTryError(std::string errorMsg) const;
 
     void processBoard() const;
 
