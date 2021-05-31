@@ -86,6 +86,7 @@ void GameOfLife<S>::getUserSizeOfBoard() const
     std::cout << "Please provide number from range <1, 500>" << std::endl;
 
     std::cin >> userSize;
+
     this->anountOfUserProvideBoardSize += 1;
 
     if (userSize < 1)
