@@ -3,6 +3,7 @@
 #include "Cell.h"
 #include <iostream>
 #include <map>
+#include "CellsStateStatistic.h"
 
 class Board
 {
@@ -10,17 +11,20 @@ public:
 	Board();
 	Board(int size);
 
-	void test();
-
 	int size;
+
 	mutable std::vector<std::vector<Cell>> boardPtr;
 
-	void initAliveCells();
+	mutable std::vector <CellsStateStatistic> StateStatisticVector;
 
+	void initAliveCells();
+	void initCellStats();
+	void clearCellStats() const;
 	void createBoard();
 	void printBoard() const;
-	void printCellAmountByAge(std::map<short, int> elementsByAgeMap) const;
+	void printCellAmountByAge() const;
 	void syncStateOfCellBoards() const;
-
-	std::map<short, int> calcElementAmountByAge() const;
+	void calcElementAmountByAge() const;
+	void sortStateStatisticVector() const;
+	void calcAndPrintBoardCellStatists() const;
 };

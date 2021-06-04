@@ -5,6 +5,9 @@
 #include "Moore.h"
 #include "Neumann.h"
 #include <map>
+#include <vector>
+#include <algorithm>
+#include <functional>
 
 int main() {
     Moore* M = new Moore();

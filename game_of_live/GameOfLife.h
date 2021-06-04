@@ -5,6 +5,7 @@
 #include "Cell.h"
 #include "Board.h"
 #include "Moore.h"
+#include "CellsStateStatistic.h"
 
 template<class S = Moore>
 class GameOfLife {
@@ -26,6 +27,8 @@ public:
     mutable int anountOfUserProvideBoardSize;
 
     mutable int anountOfUserProvideBoardSizeLimit;
+
+    int amountOfIterations;
 
     void initUserBoardSize() const;
 
@@ -50,4 +53,6 @@ public:
     short checkInitiallyAlive(int amountOfLiveSiblings, short initiallyAliveOrDead) const;
 
     short checkInitiallyDead(int amountOfLiveSiblings) const;
+
+    void calcAndPrintBoardStatistic() const;
 };

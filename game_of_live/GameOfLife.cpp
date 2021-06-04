@@ -8,6 +8,8 @@
 #include "AmountOfTryExceptions.h"
 
 #define DELEY_BETWEEN_PROCESS   1000 //ms
+#define AMOUNT_OF_ITERATIONS    100 
+
 
 template<class S>
 GameOfLife<S>::GameOfLife()
@@ -20,21 +22,22 @@ GameOfLife<S>::GameOfLife(S* siblings) : siblings(siblings), anountOfUserProvide
 }
 
 template<class S>
-void GameOfLife<S>::start() const {
-    int timer = 0;
+void GameOfLife<S>::start() const
+{
 
     initUserBoardSize();
 
     initBoard();
 
-    for (int i = 0; i <= this->size; i++)
+    int timer = 0;
+
+    for (int i = 0; i <= AMOUNT_OF_ITERATIONS; i++)
     {
         std::cout << "----------------------------------------------" << std::endl;
         std::cout << "Iteration " << timer << std::endl;
 
-        std::map cellsByAgeMap = board->calcElementAmountByAge();
+        board->calcAndPrintBoardCellStatists();
 
-        board->printCellAmountByAge(cellsByAgeMap);
         board->printBoard();
 
         this->processBoard();
@@ -224,4 +227,9 @@ short GameOfLife<S>::checkInitiallyDead(int amountOfLiveSiblings) const {
     // All other dead cells stay dead.
     // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
     return (amountOfLiveSiblings == 3) ? 0 : 4;
+}
+
+template<class S>
+void GameOfLife<S>::calcAndPrintBoardStatistic() const
+{
 }

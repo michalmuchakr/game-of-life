@@ -1,9 +1,12 @@
 #pragma once
 #include <vector>
-#include "Cell.h"
-#include "Board.h"
 #include <iostream>
 #include <map>
+#include <algorithm>
+#include <functional>
+#include "Cell.h"
+#include "Board.h"
+#include "CellsStateStatistic.h"
 
 Board::Board() : size(0)
 {
@@ -12,11 +15,7 @@ Board::Board() : size(0)
 Board::Board(int size) : size(size) {
 	this->createBoard();
 	this->initAliveCells();
-}
-
-void Board::test()
-{
-	std::cout << "Here!" << std::endl;
+	this->initCellStats();
 }
 
 void Board::initAliveCells()
@@ -26,6 +25,20 @@ void Board::initAliveCells()
 	this->boardPtr[2][1].cellStatus = 0;
 	this->boardPtr[2][2].cellStatus = 0;
 	this->boardPtr[3][1].cellStatus = 0;
+}
+
+void Board::initCellStats()
+{
+	for (int i = 0; i <= Cell::DEAD; i++) {
+		this->StateStatisticVector.push_back(CellsStateStatistic(i));
+	}
+}
+
+void Board::clearCellStats() const
+{
+	for (int i = 0; i <= Cell::DEAD; i++) {
+		this->StateStatisticVector[i].amount = 0;
+	}
 }
 
 void Board::createBoard()
@@ -49,16 +62,15 @@ void Board::printBoard() const {
 	}
 }
 
-void Board::printCellAmountByAge(std::map<short, int> elementsByAgeMap) const
+void Board::printCellAmountByAge() const
 {
 	std::cout << "----------------------------------------------" << std::endl;
-	for (auto const& [key, val] : elementsByAgeMap)
+
+	int counter = 0;
+
+	for (int i = 0; i < this->StateStatisticVector.size(); i++)
 	{
-		std::cout 
-			<< Cell::getStateNameByValue(key)
-			<< ": \t"
-			<< val
-			<< std::endl;
+		std::cout << this->StateStatisticVector[i].cellName << ": \t" << this->StateStatisticVector[i].amount << std::endl;
 	}
 	std::cout << "----------------------------------------------" << std::endl;
 }
@@ -72,18 +84,11 @@ void Board::syncStateOfCellBoards() const
 	}
 }
 
-std::map<short, int> Board::calcElementAmountByAge() const
+void Board::calcElementAmountByAge() const
 {
-	std::map<short, int> elementsByAgeMap;
-
-	// init null state of each possible state of cell
-	// Cell::DEAD -> last of state at enum is ammount of possible states
-	for (int i = 0; i < Cell::DEAD; i++) {
-		elementsByAgeMap[i] = 0;
-	}
 
 	auto ageUpParticularCell = [&](short state) {
-		elementsByAgeMap[state] = elementsByAgeMap[state] + 1;
+		this->StateStatisticVector[state].amount += 1;
 	};
 
 	// itterate over board
@@ -92,6 +97,21 @@ std::map<short, int> Board::calcElementAmountByAge() const
 			ageUpParticularCell(this->boardPtr[i][j].cellStatus);
 		}
 	}
+}
 
-	return elementsByAgeMap;
+void Board::sortStateStatisticVector() const
+{
+	std::sort(
+		this->StateStatisticVector.begin(),
+		this->StateStatisticVector.end(),
+		std::greater<CellsStateStatistic>()
+	);
+}
+
+void Board::calcAndPrintBoardCellStatists() const
+{
+	this->clearCellStats();
+	this->calcElementAmountByAge();
+	this->sortStateStatisticVector();
+	this->printCellAmountByAge();
 }
