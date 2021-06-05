@@ -34,6 +34,18 @@ void Board::initCellStats()
 	}
 }
 
+void Board::incrementStateObjectByState(short state) const
+{
+	std::vector<CellsStateStatistic>::iterator elementToUpdate = std::find_if(
+		StateStatisticVector.begin(),
+		StateStatisticVector.end(),
+		[&](CellsStateStatistic CellsStateStat) {
+			return CellsStateStat.cellId == state;
+		}
+	);
+	(*elementToUpdate).amount += 1;
+}
+
 void Board::clearCellStats() const
 {
 	for (int i = 0; i <= Cell::DEAD; i++) {
@@ -66,8 +78,6 @@ void Board::printCellAmountByAge() const
 {
 	std::cout << "----------------------------------------------" << std::endl;
 
-	int counter = 0;
-
 	for (int i = 0; i < this->StateStatisticVector.size(); i++)
 	{
 		std::cout << this->StateStatisticVector[i].cellName << ": \t" << this->StateStatisticVector[i].amount << std::endl;
@@ -86,15 +96,9 @@ void Board::syncStateOfCellBoards() const
 
 void Board::calcElementAmountByAge() const
 {
-
-	auto ageUpParticularCell = [&](short state) {
-		this->StateStatisticVector[state].amount += 1;
-	};
-
-	// itterate over board
 	for (int i = 0; i < this->size; i++) {
 		for (int j = 0; j < this->size; j++) {
-			ageUpParticularCell(this->boardPtr[i][j].cellStatus);
+			incrementStateObjectByState(this->boardPtr[i][j].cellStatus);
 		}
 	}
 }

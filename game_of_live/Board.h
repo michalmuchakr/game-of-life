@@ -19,6 +19,7 @@ public:
 
 	void initAliveCells();
 	void initCellStats();
+	void incrementStateObjectByState(short state) const;
 	void clearCellStats() const;
 	void createBoard();
 	void printBoard() const;

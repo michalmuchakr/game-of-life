@@ -21,7 +21,7 @@ public:
 	static std::string getStateNameByValue(short cellStatus);
 
 	enum CellEnum {
-		NEWBORN = 0,
+		BABY = 0,
 		YOUNG = 1,
 		ADULT = 2,
 		OLD = 3,

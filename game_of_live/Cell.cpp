@@ -20,9 +20,9 @@ Cell::Cell(Cell&& C1) noexcept
 
 char Cell::checkCellStatus() {
     switch (cellStatus) {
-    case NEWBORN:
+    case BABY:
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 1);
-        return 'N';
+        return 'B';
         break;
     case YOUNG:
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
@@ -50,7 +50,7 @@ char Cell::checkCellStatus() {
 std::string Cell::getStateNameByValue(short cellStatus)
 {
     switch (cellStatus) {
-    case NEWBORN:
+    case BABY:
         return "BABY";
         break;
     case YOUNG:

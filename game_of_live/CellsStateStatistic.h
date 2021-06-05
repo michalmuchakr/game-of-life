@@ -1,7 +1,3 @@
-//
-// Created by michal on 04.06.2021.
-//
-
 #include <string>
 
 #ifndef GAME_OF_LIFE_COMMANDO_BASTION_CELLSSTATESTATISTIC_H
@@ -19,7 +15,7 @@ public:
 
     // ascending
     bool operator < (const CellsStateStatistic& str) const;
-    
+
     // descending
     bool operator > (const CellsStateStatistic& str) const;
 };
