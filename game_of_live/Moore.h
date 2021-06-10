@@ -7,7 +7,7 @@ class Moore
 public:
 	Moore();
 
-	void incrementIfSiblingIsAlive(const Cell & cellToCheck, int& amountOfLiveSiblings) const;
+	void incrementIfSiblingIsAlive(const Cell &, int&) const;
 
-	int getAmountOfLiveSiblings(int y, int x, const Board * board, int size);
+	int getAmountOfLiveSiblings(int, int, const Board *, int);
 };

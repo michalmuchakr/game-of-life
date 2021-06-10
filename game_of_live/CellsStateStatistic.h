@@ -11,13 +11,13 @@ public:
 
     CellsStateStatistic();
 
-    CellsStateStatistic(int cellId);
+    CellsStateStatistic(int);
 
     // ascending
-    bool operator < (const CellsStateStatistic& str) const;
+    bool operator < (const CellsStateStatistic&) const;
 
     // descending
-    bool operator > (const CellsStateStatistic& str) const;
+    bool operator > (const CellsStateStatistic&) const;
 };
 
 #endif //GAME_OF_LIFE_COMMANDO_BASTION_CELLSSTATESTATISTIC_H

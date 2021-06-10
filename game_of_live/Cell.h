@@ -11,14 +11,14 @@ public:
 	Cell();
 
 	// copy constructor
-	Cell(Cell& C1);
+	Cell(Cell&);
 
 	// move constructor
-	Cell(Cell&& C1) noexcept;
+	Cell(Cell&&) noexcept;
 
 	char checkCellStatus();
 
-	static std::string getStateNameByValue(short cellStatus);
+	static std::string getStateNameByValue(short);
 
 	enum CellEnum {
 		BABY = 0,

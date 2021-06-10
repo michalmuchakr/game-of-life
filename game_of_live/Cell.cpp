@@ -4,7 +4,9 @@
 
 using namespace std;
 
-Cell::Cell() : cellStatus(4), nextStatus(4) {}
+Cell::Cell() : cellStatus(4), nextStatus(4)
+{
+}
 
 Cell::Cell(Cell& C1)
 {
@@ -18,8 +20,10 @@ Cell::Cell(Cell&& C1) noexcept
 	this->nextStatus = std::move(C1.nextStatus);
 }
 
-char Cell::checkCellStatus() {
-    switch (cellStatus) {
+char Cell::checkCellStatus()
+{
+    switch (cellStatus)
+    {
     case BABY:
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 1);
         return 'B';
@@ -49,7 +53,8 @@ char Cell::checkCellStatus() {
 
 std::string Cell::getStateNameByValue(short cellStatus)
 {
-    switch (cellStatus) {
+    switch (cellStatus)
+    {
     case BABY:
         return "BABY";
         break;

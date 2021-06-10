@@ -24,10 +24,9 @@ GameOfLife<S>::GameOfLife(S* siblings) : siblings(siblings), anountOfUserProvide
 template<class S>
 void GameOfLife<S>::start() const
 {
-
     initUserBoardSize();
-
     initBoard();
+    initThreadVector();
 
     int timer = 0;
 
@@ -77,31 +76,34 @@ void GameOfLife<S>::initBoard() const
 }
 
 template<class S>
+void GameOfLife<S>::initThreadVector() const
+{
+    this->board->threadVector.resize(this->size);
+}
+
+template<class S>
 void GameOfLife<S>::getUserSizeOfBoard() const
 {
-    if (this->anountOfUserProvideBoardSize > this->anountOfUserProvideBoardSizeLimit) {
+    if (this->anountOfUserProvideBoardSize > this->anountOfUserProvideBoardSizeLimit)
+    {
         throw AmountOfTryExceptions();
     }
-
-    short userSize;
 
     std::cout << "Please provide size of board, is going to be a square" << std::endl;
     std::cout << "Please provide number from range <1, 500>" << std::endl;
 
-    std::cin >> userSize;
+    std::cin >> this->size;
 
     this->anountOfUserProvideBoardSize += 1;
 
-    if (userSize < 1)
+    if (this->size < 1)
     {
         throw std::out_of_range("Size provided is to small!");
     }
-    else if (userSize > 500)
+    else if (this->size > 500)
     {
         throw std::out_of_range("Size provided is to big!");
     }
-
-    this->size = userSize;
 }
 
 template<class S>
@@ -134,9 +136,12 @@ void GameOfLife<S>::handleAmountOfTryError(std::string errorMsg) const
 }
 
 template<class S>
-void GameOfLife<S>::processBoard() const {
-    for (int i = 0; i < this->size; i++) {
-        for (int j = 0; j < this->size; j++) {
+void GameOfLife<S>::processBoard() const
+{
+    for (int i = 0; i < this->size; i++)
+    {
+        for (int j = 0; j < this->size; j++)
+        {
             int amountOfLiveSiblings = siblings->getAmountOfLiveSiblings(i, j, board, size);
 
             board->boardPtr[i][j].nextStatus = determineIfDeadOrAlive(
@@ -148,8 +153,10 @@ void GameOfLife<S>::processBoard() const {
 }
 
 template<class S>
-void GameOfLife<S>::incrementIfSiblingIsAlive(const Cell& cellToCheck, int& amountOfLiveSiblings) const {
-    if (cellToCheck.cellStatus != 4) {
+void GameOfLife<S>::incrementIfSiblingIsAlive(const Cell& cellToCheck, int& amountOfLiveSiblings) const
+{
+    if (cellToCheck.cellStatus != Cell::DEAD)
+    {
         amountOfLiveSiblings++;
     }
 }
@@ -157,7 +164,8 @@ void GameOfLife<S>::incrementIfSiblingIsAlive(const Cell& cellToCheck, int& amou
 template<class S>
 void GameOfLife<S>::ageUpAliveCell() const
 {
-    auto ageUpParticularCell = [=](int i, int j) {
+    auto ageUpParticularCell = [=](int i, int j)
+    {
         Cell temC = this->board->boardPtr[i][j];
 
         // NEWBORN state cell at cellStatus assumes that it remain alive at NEWBORN state
@@ -167,33 +175,41 @@ void GameOfLife<S>::ageUpAliveCell() const
         // rest of not dead cell needs to get older
         // dead cells do not get older
 
-        if ((temC.cellStatus == 0 && temC.nextStatus == 0) || (temC.nextStatus > 0 && temC.nextStatus < 4)) {
+        if ((temC.cellStatus == 0 && temC.nextStatus == 0) || (temC.nextStatus > 0 && temC.nextStatus < 4))
+        {
             return this->board->boardPtr[i][j].nextStatus + 1;
         }
     };
 
-    for (int i = 0; i < this->size; i++) {
-        for (int j = 0; j < this->size; j++) {
+    for (int i = 0; i < this->size; i++)
+    {
+        for (int j = 0; j < this->size; j++)
+        {
             this->board->boardPtr[i][j].nextStatus = ageUpParticularCell(i, j);
         }
     }
 }
 
 template<class S>
-constexpr int GameOfLife<S>::getAmountOfLiveSiblings(int y, int x) const {
+constexpr int GameOfLife<S>::getAmountOfLiveSiblings(int y, int x) const
+{
     int amountOfLiveSiblings = 0;
 
     // process vertical siblings
-    for (int i = y - 1; i <= y + 1; i++) {
+    for (int i = y - 1; i <= y + 1; i++)
+    {
         // process horizontal siblings
-        for (int j = x - 1; j <= x + 1; j++) {
+        for (int j = x - 1; j <= x + 1; j++)
+        {
             // same field under investigation
-            if (j == x && i == y) {
+            if (j == x && i == y)
+            {
                 continue;
             }
 
             // out of boardPtr range
-            if (i < 0 || i > this->size - 1 || j < 0 || j > this->size - 1) {
+            if (i < 0 || i > this->size - 1 || j < 0 || j > this->size - 1)
+            {
                 continue;
             }
 
@@ -205,17 +221,21 @@ constexpr int GameOfLife<S>::getAmountOfLiveSiblings(int y, int x) const {
 }
 
 template<class S>
-int GameOfLife<S>::determineIfDeadOrAlive(int amountOfLiveSiblings, short initiallyCellState) const {
-    if (initiallyCellState != 4) {
+int GameOfLife<S>::determineIfDeadOrAlive(int amountOfLiveSiblings, short initiallyCellState) const
+{
+    if (initiallyCellState != 4)
+    {
         return checkInitiallyAlive(amountOfLiveSiblings, initiallyCellState);
     }
-    else if (initiallyCellState == 4) {
+    else if (initiallyCellState == 4)
+    {
         return checkInitiallyDead(amountOfLiveSiblings);
     }
 }
 
 template<class S>
-short GameOfLife<S>::checkInitiallyAlive(int amountOfLiveSiblings, short initiallyCellState) const {
+short GameOfLife<S>::checkInitiallyAlive(int amountOfLiveSiblings, short initiallyCellState) const
+{
     // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
     // Any live cell with more than three live neighbours dies, as if by overpopulation.
     // Any live cell with two or three live neighbours lives on to the next generation.
@@ -223,7 +243,8 @@ short GameOfLife<S>::checkInitiallyAlive(int amountOfLiveSiblings, short initial
 }
 
 template<class S>
-short GameOfLife<S>::checkInitiallyDead(int amountOfLiveSiblings) const {
+short GameOfLife<S>::checkInitiallyDead(int amountOfLiveSiblings) const
+{
     // All other dead cells stay dead.
     // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
     return (amountOfLiveSiblings == 3) ? 0 : 4;

@@ -34,25 +34,27 @@ public:
 
     void initBoard() const;
 
+    void initThreadVector() const;
+
     void getUserSizeOfBoard() const;
 
-    void handleBoardError(std::string errorMsg) const;
+    void handleBoardError(std::string) const;
 
-    void handleAmountOfTryError(std::string errorMsg) const;
+    void handleAmountOfTryError(std::string) const;
 
     void processBoard() const;
 
-    void incrementIfSiblingIsAlive(const Cell& cellToCheck, int& amountOfLiveSiblings) const;
+    void incrementIfSiblingIsAlive(const Cell&, int&) const;
 
     void ageUpAliveCell() const;
 
-    constexpr int getAmountOfLiveSiblings(int y, int x) const;
+    constexpr int getAmountOfLiveSiblings(int, int) const;
 
-    int determineIfDeadOrAlive(int amountOfLiveSiblings, short initiallyAliveOrDead) const;
+    int determineIfDeadOrAlive(int, short) const;
 
-    short checkInitiallyAlive(int amountOfLiveSiblings, short initiallyAliveOrDead) const;
+    short checkInitiallyAlive(int, short) const;
 
-    short checkInitiallyDead(int amountOfLiveSiblings) const;
+    short checkInitiallyDead(int) const;
 
     void calcAndPrintBoardStatistic() const;
 };

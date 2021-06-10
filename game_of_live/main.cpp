@@ -8,6 +8,10 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
+#include <thread>
+#include <mutex>
+
+int sum = 0;
 
 int main() {
     Moore* M = new Moore();
